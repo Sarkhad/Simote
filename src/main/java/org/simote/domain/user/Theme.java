@@ -1,9 +1,13 @@
 package org.simote.domain.user;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +23,9 @@ public class Theme {
 	
 	@Column( unique = true, nullable = false )
 	private String code;
+	
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "theme" )
+	private Set<UserSettings> users;
 	
 	public Theme() {}
 	

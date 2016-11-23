@@ -1,8 +1,10 @@
 package org.simote.domain.user;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 
 import org.simote.domain.content.Award;
 import org.simote.domain.content.Creative;
+
 
 @Entity
 @Table( name = "user" )
@@ -39,28 +42,32 @@ public class User {
 	@Column( name = "last_name", unique = false, nullable = false )
 	private String lastName = "Anonymous";
 	
-	@Column( unique = false, nullable = false ) 
+	@Column( unique = false ) 
 	private String password;
 	
 	@Column
 	private boolean banned = false;
 	
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+    @ManyToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", nullable = true ) )
+	private Set<Role> roles = new HashSet<>();
 	
 	@OneToOne
-	@JoinColumn(name="settings_id", unique = true, nullable = false)
-	private UserSettings settings;
+	@JoinColumn( name="settings_id", unique = true )
+	private UserSettings settings = new UserSettings();
 	
 	@Column
 	private Date registered;
 	
-	@OneToMany( fetch = FetchType.EAGER, mappedBy = "user" )
-	private Set<Award> awards;
+    @ManyToMany( cascade = CascadeType.ALL )
+    @JoinTable(name = "user_award", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "award_id"))
+	private Set<Award> awards = new HashSet<>();
 	
-	@OneToMany( fetch = FetchType.LAZY, mappedBy = "author" )
-	private Set<Creative> creatives;
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL )
+	private Set<Creative> creatives = new HashSet<>();
+	
+	public User() {
+	}
 	
 	public void setId( int id ) {
 		this.id = id;
@@ -117,17 +124,21 @@ public class User {
 	public boolean isBanned() {
 		return banned;
 	}
-	
-	
+
 	public void setRoles( Set<Role> roles ) {
 		this.roles = roles;
 	}
-		
 
     public Set<Role> getRoles() {
         return roles;
     }
 	
+	public void addRole( Role ...roles ) {
+		for( Role role : roles ) {
+			this.roles.add( role );
+		}
+	}
+    
 	public void setUserSettings( UserSettings settings ) {
 		this.settings = settings;
 	}
@@ -146,6 +157,12 @@ public class User {
 	
 	public void setAwards( Set<Award> awards ) {
 		this.awards = awards;
+	}
+	
+	public void addAward( Award ...awards ) {
+		for( Award award : awards) {
+			this.awards.add( award );
+		}
 	}
 	
 	public Set<Award> getAwards() {

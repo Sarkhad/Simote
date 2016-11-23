@@ -1,5 +1,7 @@
 package org.simote;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -23,29 +28,61 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	http	.authorizeRequests()
-        			.antMatchers("/resources/**", "/registration").permitAll()
+        			.antMatchers("/resources/**").permitAll()
+        			.antMatchers("/personal**").not().anonymous()
+        			//.antMatchers("/auth*").denyAll()
+        			//.antMatchers("/auth/signup").anonymous()
+        			//.antMatchers("/auth/signup/welcome").authenticated()
+        			//.antMatchers("/auth**").anonymous()
         			//.anyRequest().authenticated()
+        			//.antMatchers( "/admin/**" ).hasRole("USER")//.access("hasRole('ROLE_ADMIN'))
         			.and()
     			.formLogin()
-    				.defaultSuccessUrl("/", false)
-    				.loginProcessingUrl("/")
-    				.successForwardUrl("/")
-    				.loginPage("/auth")
+					.loginPage("/auth")
+					.failureUrl("/auth?error")
+					.loginProcessingUrl("/auth/authorize")
+    				.usernameParameter("username")
+    				.passwordParameter("password")
+    				.defaultSuccessUrl("/")
     				.permitAll()
     				.and()
     			.logout()
+    				.logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"))
     				.logoutSuccessUrl("/")
+    				.deleteCookies( "JSESSIONID","remember-me", "theme" )
+    				//.logoutUrl("/auth?logout")
     				.permitAll()
     				.and()
+    			.rememberMe()
+    				.tokenValiditySeconds(86400)
+    				.rememberMeParameter("remember-me")
+    				.tokenRepository(persistentTokenRepository())
+    				.and()
     			.exceptionHandling()
+    				//.accessDeniedHandler( new AccessDeniedHandlerImpl() )
     				.accessDeniedPage("/error/forbidden");
     }				
 
+    @Autowired
+	DataSource dataSource;
+    
+   /* 
+    @Bean
+    private AccessDeniedHandler accessDeniedHandler() {
+    	AccessDeniedHandler accessDeniedHandler = new AccessDeniedHandlerImpl();
+    	accessDeniedHandler.
+    }*/
+    
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
+		db.setDataSource(dataSource);
+		return db;
+	}
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     	auth.userDetailsService(userDetailsService).passwordEncoder( bCryptPasswordEncoder() );
-		auth.inMemoryAuthentication().withUser("user@example.com").password("example").roles("ADMIN");
     }
 
 }

@@ -40,12 +40,12 @@ public class Creative {
 	private Date edited;
 	
 	@Column
-	private float rating;
+	private float rating = 0;
 	
 	@Column
-	private int viewed; 
+	private int viewed = 0; 
 
-	@ManyToMany
+	@ManyToMany( cascade = CascadeType.ALL )
 	@JoinTable(name="creative_tag",
 	        joinColumns = @JoinColumn(name="creative_id", referencedColumnName="id"),
 	        inverseJoinColumns = @JoinColumn(name="tag_id", referencedColumnName="id")
@@ -53,7 +53,97 @@ public class Creative {
 	private Set<Tag> tags;
 
 	
-	@OneToMany( fetch = FetchType.EAGER, mappedBy = "parentCreative" )
+	@OneToMany( fetch = FetchType.EAGER, mappedBy = "parentCreative", cascade = CascadeType.ALL )
 	private Set<Chapter> chapters;
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public User getAuthor() {
+		return author;
+	}
+
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public Date getCreated() {
+		return created;
+	}
+
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+
+	public Date getEdited() {
+		return edited;
+	}
+
+
+	public void setEdited(Date edited) {
+		this.edited = edited;
+	}
+
+
+	public float getRating() {
+		return rating;
+	}
+
+
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+
+
+	public int getViewed() {
+		return viewed;
+	}
+
+
+	public void setViewed(int viewed) {
+		this.viewed = viewed;
+	}
+
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+
+
+	public Set<Chapter> getChapters() {
+		return chapters;
+	}
+
+
+	public void setChapters(Set<Chapter> chapters) {
+		this.chapters = chapters;
+	}
 	
 }

@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -22,16 +21,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UserRepository userRepository;
 	
 	@Override
-	@Transactional( readOnly = true )
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
+		//TODO add authentification via email
         User user = userRepository.findByNickname(username);
-        
+        if( user == null ) throw new UsernameNotFoundException("No user in repository");
+         
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for ( Role role : user.getRoles() ){
             grantedAuthorities.add(new SimpleGrantedAuthority( role.getName() ) );
         }
-
-        return new org.springframework.security.core.userdetails.User( user.getNickname(), user.getPassword(), grantedAuthorities );
+        
+        org.simote.service.impl.UserDetails details = new org.simote.service.impl.UserDetails( user.getNickname(), user.getPassword(), true, true, true, !user.isBanned(), grantedAuthorities);//new org.simote.service.impl.UserDetails(user.getNickname(), user.getPassword(), enabled, accountNonExpired, credential , grantedAuthorities);
+        details.setUser(user);
+        
+        return details;
    }
 	
 }

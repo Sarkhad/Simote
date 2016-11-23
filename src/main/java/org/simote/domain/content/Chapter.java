@@ -1,11 +1,16 @@
 package org.simote.domain.content;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -19,9 +24,18 @@ public class Chapter {
 	
 	private int chapterOrder;
 	
+	@Column
 	private String title;
 	
+	@Column
 	private String content;
+	
+	@ManyToMany( cascade = CascadeType.ALL )
+	@JoinTable(name="chapter_tag",
+	        joinColumns = @JoinColumn(name="chapter_id", referencedColumnName="id"),
+	        inverseJoinColumns = @JoinColumn(name="tag_id", referencedColumnName="id")
+	)
+	private Set<Tag> tags;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL )
 	@JoinColumn(name = "creative_id", nullable = false)

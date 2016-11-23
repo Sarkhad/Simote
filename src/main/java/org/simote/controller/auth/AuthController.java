@@ -1,15 +1,21 @@
 package org.simote.controller.auth;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AuthController {
-	
-	@RequestMapping(value="/auth", method = RequestMethod.GET )
-	public String auth() {
-		return "auth/auth";
-	}
-	
+
+		@GetMapping( value = "/auth" )
+		public String auth(Model model, String error, String logout) {
+			if (error != null)
+	            model.addAttribute("error", "Your username and password is invalid.");
+
+	        if (logout != null)
+	            model.addAttribute("message", "You have been logged out successfully.");
+
+	        return "auth/auth";
+	    }
+	    
 }

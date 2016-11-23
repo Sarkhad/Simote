@@ -43,6 +43,7 @@ dependencies {
 	compile('net.sourceforge.nekohtml:nekohtml')
     compile('io.github.jpenren:thymeleaf-spring-data-dialect:2.1.1')
 	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
+	compile('commons-validator:commons-validator:1.4.0')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')

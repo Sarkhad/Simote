@@ -7,12 +7,7 @@
 
 <title th:text="#{page.registration.title}">Регистрация</title>
 
-<link th:href="@{~/css/bootstrap-light.min.css}" rel="stylesheet">
-
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<th:block th:replace="template :: head"></th:block>
 </head>
 <body>
 	<nav class="navbar navbar-default">
@@ -26,10 +21,10 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Simote</a>
+				<a class="navbar-brand" th:href="@{~/}" href="#">Simote</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-        		<li><a th:text="#{page.registration.navbar.login}" href="#">Have an account?</a></li>
+        		<li><a th:text="#{page.registration.navbar.login}" th:href="@{~/auth/}" href="#">Have an account?</a></li>
         	</ul>
 			<!-- /.navbar-collapse -->
 		</div>
@@ -42,47 +37,52 @@
   				<h1 th:text="#{page.registration.header}">Регистрация</h1>
 			</div>
 		</div>
-
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
   				<div class="panel-body">
-					<form>
-						<div class="form-group">
+					<form th:action="@{~/auth/signup}" th:object="${signupForm}" method="post">
+						<div class="form-group" th:classappend="${#fields.hasErrors('email')}? has-error">
     						<label th:text="#{page.registration.signupform.email.label}" for="email">Email</label>
-    						<input type="email" class="form-control" id="email" th:placeholder="#{page.registration.signupform.email.placeholder}" placeholder="Email">
+    						<input type="email" class="form-control" th:placeholder="#{page.registration.signupform.email.placeholder}" th:field="*{email}" >
+    						<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger">Incorrect</p>
   						</div>
   						<div class="row">
   							<div class="col-md-5 col-md-offset-1">
-  								<div class="form-group">
+  								<div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? has-error">
   									<label th:text="#{page.registration.signupform.firstname.label}" for="firstname">Имя:</label>
-    								<input type="text" class="form-control" id="firstname" th:placeholder="#{page.registration.signupform.firstname.placeholder}" placeholder="Hello">
+    								<input type="text" class="form-control" th:placeholder="#{page.registration.signupform.firstname.placeholder}" th:field="*{firstName}">
+    								<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger">Incorrect</p>
   								</div>
   							</div>
   							<div class="col-md-5 col-md-offset-1">
-  								<div class="form-group">
-  									<label for="lastname">Фамилия:</label>
-    								<input type="text" class="form-control" id="lastname" placeholder="Kitty">
+  								<div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? has-error">
+  									<label th:text="#{page.registration.signupform.lastname.label}" for="lastname">Фамилия:</label>
+    								<input type="text" class="form-control" th:placeholder="#{page.registration.signupform.lastname.placeholder}" th:field="*{lastName}">
+    								<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger">Incorrect</p>
   								</div>
   							</div>
   						</div>
-						<div class="form-group">
-  							  <label for="nickname">Никнейм:</label>
-    						<input type="text" class="form-control" id="nickname" placeholder="Hello_kitty">
+						<div class="form-group" th:classappend="${#fields.hasErrors('nickname')}? has-error">
+  							 <label th:text="#{page.registration.signupform.nickname.label}" for="nickname">Никнейм:</label>
+    						 <input type="text" class="form-control" th:placeholder="#{page.registration.signupform.nickname.placeholder}" th:field="*{nickname}">
+    						 <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="text-danger">Incorrect</p>
   						</div>
- 						<div class="form-group">
-  							  <label for="password">Пароль:</label>
-    						<input type="password" class="form-control" id="password" placeholder="Password">
+ 						<div class="form-group" th:classappend="${#fields.hasErrors('password')}? has-error">
+  							<label th:text="#{page.registration.signupform.password.label}" for="password">Пароль:</label>
+    						<input type="password" class="form-control" th:placeholder="#{page.registration.signupform.password.placeholder}" th:field="*{password}">
+    						<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger">Incorrect</p>
   						</div>
-  						<div class="form-group">
-  							  <label for="confirmPassword">Подтвердите пароль:</label>
-    						<input type="password" class="form-control" id="confirmPassword" placeholder="Password">
+  						<div class="form-group" th:classappend="${#fields.hasErrors('passwordConfirm')}? has-error">
+  							<label th:text="#{page.registration.signupform.passwordconfirm.label}" for="passwordConfirm">Подтвердите пароль:</label>
+    						<input type="password" class="form-control" th:placeholder="#{page.registration.signupform.passwordconfirm.placeholder}" th:field="*{passwordConfirm}">
+    						<p th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="text-danger">Incorrect</p>
   						</div>
-  						<button type="button" class="btn btn-success pull-right">Зарегистрироваться</button>
+  						<button type="submit" th:text="#{page.registration.signupform.signupbutton}" class="btn btn-success pull-right">Зарегистрироваться</button>
 					</form>
   				</div>
 			</div>
 		</div>
-		<th:block th:replace="template :: footer"></th:block>
+		<th:block th:include="template :: footer"></th:block>
 	</div>
 	<th:block th:include="template :: scripts"></th:block>
 </body>

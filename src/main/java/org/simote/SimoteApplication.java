@@ -6,7 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.ui.context.ThemeSource;
+import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ThemeResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
@@ -34,10 +37,7 @@ public class SimoteApplication {
 
     }
 
-
-
     @Bean
-
     public ReloadableResourceBundleMessageSource messageSource() {
 
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -48,6 +48,19 @@ public class SimoteApplication {
 
         return messageSource;
 
+    }
+    
+    @Bean
+    public ThemeSource themeSource() {
+    	ResourceBundleThemeSource themeSource = new ResourceBundleThemeSource();
+    	themeSource.setBasenamePrefix("themes/");
+    	return themeSource;
+    }
+    
+    @Bean
+    public ThemeResolver themeResolver() {
+    	ThemeResolver themeResolver = new org.simote.thymeleaf.ThemeResolver();
+    	return themeResolver;
     }
 	
 }
