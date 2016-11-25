@@ -1,6 +1,7 @@
 package org.simote.domain.content;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -34,10 +35,13 @@ public class Creative {
 	private String name;
 	
 	@Column
-	private Date created;
+	private String description;
 	
 	@Column
-	private Date edited;
+	private Timestamp created;
+	
+	@Column
+	private Timestamp edited;
 	
 	@Column
 	private float rating = 0;
@@ -50,11 +54,11 @@ public class Creative {
 	        joinColumns = @JoinColumn(name="creative_id", referencedColumnName="id"),
 	        inverseJoinColumns = @JoinColumn(name="tag_id", referencedColumnName="id")
 	)
-	private Set<Tag> tags;
+	private Set<Tag> tags = new HashSet<>();
 
 	
 	@OneToMany( fetch = FetchType.EAGER, mappedBy = "parentCreative", cascade = CascadeType.ALL )
-	private Set<Chapter> chapters;
+	private Set<Chapter> chapters = new HashSet<>();
 
 
 	public int getId() {
@@ -87,22 +91,22 @@ public class Creative {
 	}
 
 
-	public Date getCreated() {
+	public Timestamp getCreated() {
 		return created;
 	}
 
 
-	public void setCreated(Date created) {
+	public void setCreated(Timestamp created) {
 		this.created = created;
 	}
 
 
-	public Date getEdited() {
+	public Timestamp getEdited() {
 		return edited;
 	}
 
 
-	public void setEdited(Date edited) {
+	public void setEdited(Timestamp edited) {
 		this.edited = edited;
 	}
 
@@ -135,6 +139,10 @@ public class Creative {
 	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
 	}
+	
+	public void addTag( Tag tag ) {
+		tags.add( tag );
+	}
 
 
 	public Set<Chapter> getChapters() {
@@ -144,6 +152,21 @@ public class Creative {
 
 	public void setChapters(Set<Chapter> chapters) {
 		this.chapters = chapters;
+	}
+
+
+	public void addChapter(Chapter chapter) {
+		chapters.add(chapter);
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

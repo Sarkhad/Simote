@@ -6,7 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title th:text="#{page.title.main}"></title>
-	<th:block th:replace="template :: head"></th:block>
+<th:block th:include="template :: head"></th:block>
+	
 </head>
 <body> 
 	<th:block th:replace="template :: navbar"></th:block>
@@ -56,9 +57,27 @@
 				<div class="panel-body">
 					Креативов: 0<br> Награды:
 				</div>
-			</div>
-
+				<div class="panel-footer">
+					<a class="btn btn-success" style="width:100%;" th:inline="text" th:href="@{~/personal/editor}" role="button">[[#{page.index.panel.profile.addpost}]] <span class="glyphicon glyphicon-plus"
+								aria-hidden="true"></span></a>
+				</div>
 		</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title" th:text="#{page.index.panel.tagscloud.title}"></h3>
+				</div>
+  				<div class="panel-body">
+  					<div class="row">
+  						<canvas class="center-block" width="260" height="300" id="tagsCloud"> 
+							<ul> 
+								<li th:each=" tag : ${tags}"><a th:with="root=@{~/tags/}" th:href="${root} + ${tag.address}" th:text="${tag.name}" target="_blank"></a></li>
+							</ul> 
+						</canvas>
+  					</div>
+				</div>
+			</div>
+</div>
 		
 				<div class="col-md-4 col-md-offset-3">
 			<nav aria-label="Page navigation">
@@ -81,5 +100,14 @@
 		<th:block th:include="template :: footer"></th:block>
 	</div>
 <th:block th:include="template :: scripts"></th:block>
+<script th:src="@{/js/jquery.tagcanvas.min.js}"></script>
+<script>$(document).ready(function() { 
+	$('#tagsCloud').tagcanvas({ 
+		textColour : '#5cb85c', // Цвет текста 
+		outlineThickness : 1, // Обводка у ссылок (Да, Нет) 
+		maxSpeed : 0.03, // Максимальная скорость 
+		depth : 0.9 // Глубина. От 0 до 1 
+		}) 
+		});</script>
 </body>
 </html>

@@ -29,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http	.authorizeRequests()
         			.antMatchers("/resources/**").permitAll()
-        			.antMatchers("/personal**").not().anonymous()
+        			//.antMatchers("/add**").permitAll()
+        			.antMatchers("/personal/**").not().anonymous()
         			//.antMatchers("/auth*").denyAll()
         			//.antMatchers("/auth/signup").anonymous()
         			//.antMatchers("/auth/signup/welcome").authenticated()
@@ -50,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     				.logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"))
     				.logoutSuccessUrl("/")
     				.deleteCookies( "JSESSIONID","remember-me", "theme" )
-    				//.logoutUrl("/auth?logout")
     				.permitAll()
     				.and()
     			.rememberMe()

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.apache.log4j.Logger;
 import org.simote.domain.user.Language;
 import org.simote.domain.user.Theme;
 import org.simote.domain.user.User;
@@ -36,10 +35,8 @@ public class SettingsServiceImpl implements SettingsService {
 	public SettingsForm getSettingsForm() {
 		SettingsForm form = new SettingsForm();
 		
-		Logger.getLogger(getClass()).warn( "____" + securityService.findLoggedInUsername() );
 		User user = userRepository.findByNickname( securityService.findLoggedInUsername() );
-		//UserSettings settings = user.getUserSettings();
-		
+
 		form.setEmail( user.getEmail() );
 		form.setFirstName( user.getFirstName() );
 		form.setLastName( user.getLastName() );

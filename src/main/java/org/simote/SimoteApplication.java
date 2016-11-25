@@ -32,7 +32,7 @@ public class SimoteApplication {
         SessionLocaleResolver slr = new SessionLocaleResolver();
 
         slr.setDefaultLocale(Locale.US);
-
+        
         return slr;
 
     }
@@ -62,5 +62,6 @@ public class SimoteApplication {
     	ThemeResolver themeResolver = new org.simote.thymeleaf.ThemeResolver();
     	return themeResolver;
     }
-	
+    
+
 }

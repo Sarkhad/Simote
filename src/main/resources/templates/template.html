@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-	<head>
-		<th:block th:fragment="head">
+	<head th:fragment="head">	
 			<meta charset="utf-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +11,6 @@
     	 		<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     	  		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     		<![endif]-->
-		</th:block>
 	</head>
 <body class="container">
 	<nav th:fragment="navbar" class="navbar navbar-default">
@@ -48,7 +46,7 @@
 						</span></a></li>
 						<li sec:authorize="!isAnonymous()" class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false"><span sec:authentication="principal.user.nickname">John</span> <!--  sec:authentication="principal.firstName" theme.codeprincipal.username-->
+							aria-expanded="false"><span sec:authentication="principal.user.nickname"></span>
  							<span class="caret"></span></a>
 							<ul class="dropdown-menu" th:inline="text">
 								<li><a th:href="@{~/personal}" href="#">[[#{navbar.profile.personal}]] <span

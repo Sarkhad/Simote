@@ -50,7 +50,6 @@ public class SettingsController {
 	
 	@PostMapping
 	public String registration( @ModelAttribute("settingsForm") SettingsForm settingsForm, BindingResult bindingResult, Model model ) {
-		Logger.getLogger(getClass()).warn( settingsForm.getTheme() );
 		Logger.getLogger(getClass()).warn( settingsForm.getLang() );
 		
 		String currentThemeCode = settingsForm.getTheme();
