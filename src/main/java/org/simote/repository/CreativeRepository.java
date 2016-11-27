@@ -2,7 +2,8 @@ package org.simote.repository;
 
 import org.simote.domain.content.Creative;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CreativeRepository extends JpaRepository<Creative, Integer> {
-
+@Repository
+public interface CreativeRepository extends JpaRepository<Creative, Integer> {	
 }

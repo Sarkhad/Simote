@@ -8,4 +8,6 @@ public interface TagService {
 
 	List<Tag> getAllTags();
 	
+	List<String> autocomplete( String name );
+	
 }

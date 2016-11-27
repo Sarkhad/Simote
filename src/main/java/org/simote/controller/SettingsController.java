@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.simote.domain.user.Language;
 import org.simote.domain.user.Theme;
+import org.simote.domain.user.UserSettings;
 import org.simote.form.SettingsForm;
+import org.simote.repository.UserSettingsRepository;
 import org.simote.service.SecurityService;
 import org.simote.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class SettingsController {
 	
 	@Autowired
 	private SecurityService securityService;
+	
+	@Autowired
+	private UserSettingsRepository userSettingsRepository;
 	
 	@GetMapping
 	public String getSettingsPage( Model model ) {
@@ -87,16 +92,25 @@ public class SettingsController {
 		model.addAttribute( "siteLanguages", languages );
 		*/
 		//settingsFormValidator.validate( settingsForm, bindingResult );
-        
-		securityService.getLoggedInUser().getUserSettings().setTheme(currentTheme);
+        		
+
+		UserSettings userSettings = securityService.getLoggedInUser().getUserSettings();
 		
-        if (true) { //bindingResult.hasErrors()
-            return "personal/settings";
+		userSettings.setTheme(currentTheme);
+		
+		userSettingsRepository.saveAndFlush( userSettings );
+		
+		settingsService.updateUserSettings( securityService.getLoggedInUser(), settingsForm);
+		
+		
+        if ( true ) { //bindingResult.hasErrors()
+        	return "redirect:../";
         }
+        
+       // return "personal/settings";
 
         //save settings
-        
-		return "redirect:../";
+        return "redirect:../";
 	}
 	
 }

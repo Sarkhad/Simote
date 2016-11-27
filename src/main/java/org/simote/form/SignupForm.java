@@ -82,10 +82,10 @@ public class SignupForm {
 	public User getUser() {
 		User user = new User();
 		
-		user.setEmail(email);
+		user.setEmail(email.toLowerCase());
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		user.setNickname(nickname);
+		user.setNickname(nickname.toLowerCase());
 		user.setPassword(password);
 		
 		return user;

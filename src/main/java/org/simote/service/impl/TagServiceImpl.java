@@ -1,5 +1,6 @@
 package org.simote.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.simote.domain.content.Tag;
@@ -17,6 +18,17 @@ public class TagServiceImpl implements TagService {
 	@Override
 	public List<Tag> getAllTags() {
 		return tagRepository.findAll();
+	}
+
+	@Override
+	public List<String> autocomplete(String name) {
+		List<Tag> tags = tagRepository.findFirst5ByNameStartingWith(name);
+		
+		ArrayList<String> autocompleteSuggestions = new ArrayList<String>();
+		
+		tags.forEach( t -> autocompleteSuggestions.add( t.getName() )  );
+		
+		return autocompleteSuggestions;
 	}
 	
 	

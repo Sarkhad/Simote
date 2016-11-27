@@ -2,43 +2,34 @@
 
 var editor = angular.module('editor', ['ngTagsInput', "ng-showdown", 'monospaced.elastic' ] )
 .controller('editorController', function( $scope, $http ) {
+		
 	
-
-		$scope.companies = [];
+		$scope.alert = {}
+		
+		$scope.closeAlert = function() {
+			$scope.alert.show = false;
+		}
 	
       	$scope.loadTags = function(query) {
-    	  return [ { text: 'hello' }, { text: 'world' } ];//$http.get('/tags?query=' + query);
+      		return $http.post('/tags', query);
       	};
       	
-      	//TODO
-      	$scope.testPost =  function() {
+      	$scope.postCreative = function() {
+      		//if( !$scope.validate() ) return;
       		
-      		var res = $http({
-      		    url: "/personal/editor/create", 
-      		    method: "POST",
-      		    params: { json: angular.toJson( $scope.creative ) }
-      		 });
-    		//var res = $http.post( "/add", angular.toJson( $scope.creative ));
+    		var res = $http.post( "/personal/editor/create", angular.toJson( $scope.creative ));
     		
     		res.success(function(data, status, headers, config) {
-    			$scope.message = data;
-    		});
-    		res.error(function(data, status, headers, config) {
-    			alert( "failure message: " + JSON.stringify({data: data}));
-    		});
-      	}
-      	
-      	$scope.postCreative =  function() {
-      		
-      		var res = $http({
-      		    url: "/add", 
-      		    method: "GET",
-      		    params: { json: angular.toJson( $scope.creative ) }
-      		 });
-    		//var res = $http.post( "/add", angular.toJson( $scope.creative ));
-    		
-    		res.success(function(data, status, headers, config) {
-    			$scope.message = data;
+    			$scope.alert = data;
+    			if( angular.equals( $scope.alert.level, "SUCCESS" ) ) {
+    				for (var i = 0, len = $scope.creative.chapters.length; i < len; i++) {
+    					$scope.creative.chapters[i] = {
+    							content: $scope.newChapter.content
+    					};
+    				}
+    				
+    				$scope.creative = {};
+    			}
     		});
     		res.error(function(data, status, headers, config) {
     			alert( "failure message: " + JSON.stringify({data: data}));
@@ -52,7 +43,7 @@ var editor = angular.module('editor', ['ngTagsInput', "ng-showdown", 'monospaced
 		}
 	
 	    $scope.addChapter = function() {
-			var newChapter = {
+			$scope.newChapter = {
 				"id": 0,
 				"title": "",
 				"content": ""
@@ -60,9 +51,9 @@ var editor = angular.module('editor', ['ngTagsInput', "ng-showdown", 'monospaced
 			
 			var id = getMaxChapterID();
 			$scope.debug = id;
-			newChapter.id = id + 1;
+			$scope.newChapter.id = id + 1;
 			
-			newChapter.content = 'Enter your [Markdown][1] here.' +
+			$scope.newChapter.content = 'Enter your [Markdown][1] here.' +
 		    '\n' +
 		    '\n- *first*' +
 		    '\n- **second**' +
@@ -71,7 +62,7 @@ var editor = angular.module('editor', ['ngTagsInput', "ng-showdown", 'monospaced
 		    '\n[1]: http://daringfireball.net/projects/markdown/syntax';
 			
 			
-			$scope.chapters[ id ] = newChapter;
+			$scope.chapters[ id ] = $scope.newChapter;
 	    };
 		
 		function getMaxChapterID() {
@@ -89,7 +80,34 @@ var editor = angular.module('editor', ['ngTagsInput', "ng-showdown", 'monospaced
 				chapter.id = index;
 				index++;
 			});
+		}	
+
+		$scope.validate = function() {
+			if( !angular.isObject($scope.creative) ) {
+				return false;
+			}
+			if( $scope.creative.name ) {
+				$scope.validation.name = "Empty creative name";
+				return false;
+			}else{
+				$scope.validation.name = "";
+			}
+			
+			if( $scope.creative.tags.length() > 0 ) {
+				$scope.validation.tags = "No creative tags";
+				return false;
+			}else{
+				$scope.validation.tags = "";
+			}
+			
+			if( $scope.creative.description ) {
+				$scope.validation.description = "Empty creative description";
+				return false;
+			}else{
+				$scope.validation.description = ""; 
+			}
+			
+			
+			return true;
 		}
-		
-	
 });

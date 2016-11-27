@@ -2,13 +2,13 @@ package org.simote.editor;
 
 import java.util.Set;
 
-public class Creative {
+class JsonCreative {
 
 	private String name;
 	
-	private Set<Tag> tags;
+	private Set<JsonTag> tags;
 
-	private Set<Chapter> chapters;
+	private Set<JsonChapter> chapters;
 	
 	private String description;
 
@@ -20,19 +20,19 @@ public class Creative {
 		this.name = name;
 	}
 
-	public Set<Tag> getTags() {
+	public Set<JsonTag> getTags() {
 		return tags;
 	}
 
-	public void setTags(Set<Tag> tags) {
+	public void setTags(Set<JsonTag> tags) {
 		this.tags = tags;
 	}
 
-	public Set<Chapter> getChapters() {
+	public Set<JsonChapter> getChapters() {
 		return chapters;
 	}
 
-	public void setChapters(Set<Chapter> chapters) {
+	public void setChapters(Set<JsonChapter> chapters) {
 		this.chapters = chapters;
 	}
 

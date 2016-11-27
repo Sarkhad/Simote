@@ -1,6 +1,6 @@
 package org.simote.editor;
 
-class Tag {
+class JsonTag {
 	
 	private String text;
 

@@ -2,6 +2,7 @@ package org.simote.controller;
 
 import org.simote.domain.user.User;
 import org.simote.repository.UserRepository;
+import org.simote.service.AwardService;
 import org.simote.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class UserProfileController {
 	@Autowired
 	private SecurityService securityService;
 	
+	@Autowired
+	private AwardService awardService;
+	
 	@GetMapping("/user/")
 	public String get() {
 		if( securityService.findLoggedInUsername() == null ) return "redirect:/";	
@@ -31,9 +35,9 @@ public class UserProfileController {
 		if( requestedUser == null ){
 			return "personal/profileNotFound";
 		}
-		
+				
 		model.addAttribute( "requestedUser", requestedUser );
-		model.addAttribute( "awards", requestedUser.getAwards() );
+		model.addAttribute( "awards", awardService.sortAwardsByAwardedTime( requestedUser.getAwards() ) );
 		model.addAttribute( "creatives", requestedUser.getCreatives() );
 				
 		return "personal/profile"; 

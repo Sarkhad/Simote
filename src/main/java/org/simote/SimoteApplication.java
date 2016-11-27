@@ -2,6 +2,7 @@ package org.simote;
 
 import java.util.Locale;
 
+import org.pegdown.PegDownProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -61,6 +62,12 @@ public class SimoteApplication {
     public ThemeResolver themeResolver() {
     	ThemeResolver themeResolver = new org.simote.thymeleaf.ThemeResolver();
     	return themeResolver;
+    }
+    
+    @Bean("pegdown")
+    public PegDownProcessor pegdown() {
+    	PegDownProcessor pegDownProcessor = new PegDownProcessor();  	
+    	return pegDownProcessor;
     }
     
 

@@ -60,7 +60,7 @@ public class User {
 	private Date registered;
 	
     @ManyToMany( cascade = CascadeType.ALL )
-    @JoinTable(name = "user_award", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "award_id"))
+    @JoinTable( name = "user_award", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "award_id"))
 	private Set<Award> awards = new HashSet<>();
 	
 	@OneToMany( fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL )

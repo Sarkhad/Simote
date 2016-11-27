@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         for ( Role role : user.getRoles() ){
             grantedAuthorities.add(new SimpleGrantedAuthority( role.getName() ) );
         }
-        
+                
         org.simote.service.impl.UserDetails details = new org.simote.service.impl.UserDetails( user.getNickname(), user.getPassword(), true, true, true, !user.isBanned(), grantedAuthorities);//new org.simote.service.impl.UserDetails(user.getNickname(), user.getPassword(), enabled, accountNonExpired, credential , grantedAuthorities);
         details.setUser(user);
         

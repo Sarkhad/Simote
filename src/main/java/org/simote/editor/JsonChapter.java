@@ -2,7 +2,7 @@ package org.simote.editor;
 
 import java.util.Set;
 
-class Chapter {
+class JsonChapter {
 	
 	private Integer id;
 	
@@ -10,7 +10,7 @@ class Chapter {
 	
 	private String content;
 	
-	private Set<Tag> tags;
+	private Set<JsonTag> tags;
 
 	public Integer getId() {
 		return id;
@@ -36,11 +36,11 @@ class Chapter {
 		this.content = content;
 	}
 
-	public Set<Tag> getTags() {
+	public Set<JsonTag> getTags() {
 		return tags;
 	}
 
-	public void setTags(Set<Tag> tags) {
+	public void setTags(Set<JsonTag> tags) {
 		this.tags = tags;
 	}
 	

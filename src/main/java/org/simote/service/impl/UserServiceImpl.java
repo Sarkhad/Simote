@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setRegistrationDate( new java.sql.Date(Calendar.getInstance().getTime().getTime() ) );
         
         Award award = awardService.getAward( AwardType.SUCCESSFUL_REGISTRATION );
-        award.setAwarded( new java.sql.Date(Calendar.getInstance().getTime().getTime() ) );
+        award.setAwardedTimestamp( new java.sql.Timestamp( Calendar.getInstance().getTimeInMillis() ) );
         user.addAward( award );
         
         user.getUserSettings().setLanguage( languageRepository.findAll().get(0) );

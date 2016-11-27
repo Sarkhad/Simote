@@ -47,15 +47,25 @@
 											<img th:each="award : ${awards}" style="width:40px;height:40px;" th:with="root = @{~/img/medal/}" th:src="${root} + #{${award.codename}} + .svg" th:title="#{${award.name}}" th:alt="#{${award.name}}" class="img-circle">
   						</div>
   					</div>
-
   				</div>
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<ol class="breadcrumb">
+				<li><a th:text="#{breadcrumbs.home}" th:href="@{~/}"></a></li>
+				<li th:text="#{breadcrumbs.profile}"></li>
+				<li th:utext="#{ page.userprofile.title( ${#strings.capitalize( requestedUser.nickname )} ) }" class="active"></li>
+			</ol>
+		</div>
+	</div>
+
 <div class="page-header">
   <h1 th:text="#{page.userprofile.header.creatives}"></h1>
 </div>
-	<div class="row">
+<h6 th:if="${#lists.isEmpty( creatives )}" class="text-center" th:text="#{page.userprofile.comments.creativesnotfound}"></h6>
+	<div th:unless="${#lists.isEmpty( creatives )}" class="row">
 		<div class="col-md-12">
 			<div th:each=" creative : ${creatives} " class="panel panel-default">
 				<div class="panel-heading">
@@ -77,7 +87,7 @@
 <div class="page-header">
   <h1 th:text="#{page.userprofile.comments.header}"></h1>
 </div>
-<h6 class="text-center" th:text="#{page.userprofiel.comments.commentsnotfound}"></h6>
+<h6 class="text-center" th:text="#{page.userprofile.comments.commentsnotfound}"></h6>
 </div>
 	<th:block th:replace="template :: footer"></th:block>
 	<th:block th:replace="template :: scripts"></th:block>

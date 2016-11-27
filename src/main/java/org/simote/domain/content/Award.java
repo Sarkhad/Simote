@@ -1,6 +1,6 @@
 package org.simote.domain.content;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,7 +32,7 @@ public class Award {
 	
 	private String description;
 	
-	private Date awarded;
+	private Timestamp awarded;
 
 	public Award() {}
 	
@@ -67,11 +67,11 @@ public class Award {
 		this.description = description;
 	}
 
-	public Date getAwarded() {
+	public Timestamp getAwardedTimestamp() {
 		return awarded;
 	}
 
-	public void setAwarded(Date awarded) {
+	public void setAwardedTimestamp( Timestamp awarded) {
 		this.awarded = awarded;
 	}
 	

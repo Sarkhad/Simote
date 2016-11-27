@@ -22,12 +22,13 @@ public class Chapter {
 	@GeneratedValue
 	private int id;
 	
+	@Column
 	private int chapterOrder;
 	
 	@Column
 	private String title;
 	
-	@Column
+	@Column(columnDefinition="text")
 	private String content;
 	
 	@ManyToMany( cascade = CascadeType.ALL )
@@ -41,11 +42,11 @@ public class Chapter {
 	@JoinColumn(name = "creative_id", nullable = false)
 	private Creative parentCreative;
 	
-	public int getOrder() {
+	public int getChapterOrder() {
 		return chapterOrder;
 	}
 
-	public void setOrder(int order) {
+	public void setChapterOrder(int order) {
 		this.chapterOrder = order;
 	}
 
@@ -71,6 +72,14 @@ public class Chapter {
 
 	public void setParentCreative( Creative parentCreative ) {
 		this.parentCreative = parentCreative;
+	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
 	}
 	
 }

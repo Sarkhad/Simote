@@ -10,6 +10,12 @@
 	<div class="container">
 		<div class="col-md-8 col-md-offset-2">
 			<th:block th:replace="template :: header( title=#{page.profile.settings.header}, description=#{page.profile.settings.header.description} )"></th:block>
+			<ol class="breadcrumb">
+				<li><a th:text="#{breadcrumbs.home}" th:href="@{~/}"></a></li>
+				<li><a th:text="#{breadcrumbs.personal}"
+					th:href="@{~/personal/}"></a></li>
+				<li th:text="#{breadcrumbs.personal.settings}" class="active"></li>
+			</ol>
 		</div>
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
@@ -38,7 +44,7 @@
   						</div>
 						<div class="form-group" th:classappend="${#fields.hasErrors('nickname')}? has-error">
   							<label th:text="#{page.profile.settings.nickname.label}" for="nickname"></label>
-    						<input type="text" class="form-control" th:field="*{nickname}">
+    						<input readonly type="text" class="form-control" th:field="*{nickname}">
     						<p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="text-danger">Incorrect</p>
   						</div>
   						<div class="form-group" th:classappend="${#fields.hasErrors('theme')}? has-error">

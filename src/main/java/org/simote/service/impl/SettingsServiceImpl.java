@@ -56,6 +56,18 @@ public class SettingsServiceImpl implements SettingsService {
 	public List<Language> getAllAvailableLanguages() {
 		return languageRepository.findAll();
 	}
+
+	@Transactional
+	public void updateUserSettings( User user, SettingsForm settingsForm) {
+		user.setFirstName( settingsForm.getFirstName() );
+		user.setLastName( settingsForm.getLastName() );
+		user.setNickname( settingsForm.getNickname() );
+		
+		userRepository.saveAndFlush( user );
+		
+		//Authentication authentication = new UsernamePasswordAuthenticationToken(userObject, userObject.getPassword(), userObject.getAuthorities());
+		//SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
 	
 	
 	

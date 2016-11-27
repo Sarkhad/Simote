@@ -18,6 +18,9 @@
 	</div>
 	<div class="row">
 		<div class="col-md-9">
+			<ol class="breadcrumb">
+  				<li><a th:text="#{breadcrumbs.home}" th:href="@{~/}"></a></li>
+			</ol>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h5><a class="text-success" href="#">Lorem ipsum dolor sit amet,
@@ -50,18 +53,17 @@
 
 		</div>
 		<div class="col-md-3">
-			<div class="panel panel-success">
+			<div sec:authorize="!isAnonymous()" class="panel panel-success">
 				<div class="panel-heading">
-					<h3 class="panel-title">Sarkhad</h3>
+					<h3 class="panel-title"><a th:text="${ #strings.capitalize( #authentication.principal.user.nickname)}" th:href="@{~/personal}"></a></h3>
 				</div>
 				<div class="panel-body">
-					Креативов: 0<br> Награды:
 				</div>
 				<div class="panel-footer">
 					<a class="btn btn-success" style="width:100%;" th:inline="text" th:href="@{~/personal/editor}" role="button">[[#{page.index.panel.profile.addpost}]] <span class="glyphicon glyphicon-plus"
 								aria-hidden="true"></span></a>
 				</div>
-		</div>
+			</div>
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -103,10 +105,10 @@
 <script th:src="@{/js/jquery.tagcanvas.min.js}"></script>
 <script>$(document).ready(function() { 
 	$('#tagsCloud').tagcanvas({ 
-		textColour : '#5cb85c', // Цвет текста 
-		outlineThickness : 1, // Обводка у ссылок (Да, Нет) 
-		maxSpeed : 0.03, // Максимальная скорость 
-		depth : 0.9 // Глубина. От 0 до 1 
+		textColour : '#5cb85c',
+		outlineThickness : 1,
+		maxSpeed : 0.03,
+		depth : 0.9
 		}) 
 		});</script>
 </body>

@@ -39,9 +39,9 @@ public class ThemeResolver extends AbstractThemeResolver {
 		User user = userRepository.findByNickname(principal.getName());
 		
 		//Cookie foo = new Cookie("theme", user.getUserSettings().getTheme().getCode() ); 
-		
-		
+	
 		return user.getUserSettings().getTheme().getCode(); //TODO remade on cookies*/
+
 	}
 	
 	@Override
