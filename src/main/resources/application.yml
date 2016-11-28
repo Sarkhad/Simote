@@ -13,6 +13,7 @@ spring:
     vk:
       app-id: 5701213
       app-secret: g6vpcmeRH4WGaEvnd0zD
+      redirect-uri: http://localhost:8080/auth/vk
 # SQL
   datasource:
     url: jdbc:mysql://localhost:3306/simote?useSSL=false
@@ -21,7 +22,7 @@ spring:
     testWhileIdle: true
     validationQuery: SELECT 1
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
       naming:

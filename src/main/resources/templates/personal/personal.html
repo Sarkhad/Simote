@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +13,7 @@
 <th:block th:replace="template :: navbar"></th:block>
 
 <div class="container">
+<div class="jumbotron">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">		
 			<div class="panel panel-default">
@@ -38,8 +39,8 @@
 													<tr class="text-center">
 														<td th:text="${ #lists.size( creatives ) }"></td>
 														<td>0</td>
-														<td>6</td>
-														<td>69</td>
+														<td>0</td>
+														<td>0</td>
 													</tr>
 												</tbody>
 											</table>
@@ -49,6 +50,7 @@
   					</div>
   				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 	<div class="row">
@@ -66,21 +68,9 @@
 <h6 th:if="${#lists.isEmpty( creatives )}" class="text-center" th:text="#{page.userprofile.comments.creativesnotfound}"></h6>
 	<div th:unless="${#lists.isEmpty( creatives )}" class="row">
 		<div class="col-md-12">
-			<div th:each=" creative : ${creatives} " class="panel panel-default">
-				<div class="panel-heading">
-					<h5><a class="text-success" th:text="${creative.name}" th:with="root=@{~/creative/}" th:href="@{ ${root} + ${creative.id} }"></a></h5>
-				</div>
-				<div class="panel-body">
-				<p th:text=${creative.description}></p>
-					<div class="row">
-						<div class="col-md-10">
-							<p class="text-info" th:inline="text">Просмотров [[${creative.viewed}]]; Изменен [[${creative.edited}]]; Создан [[${{creative.created}}]]</p>	
-							
-							<a class="text-default" th:with="root=@{~/tag/}" th:each=" tag : ${creative.tags}" th:href="@{ ${root} + ${tag.address} }"><span class="label label-default" th:text="${tag.name}">Lorem</span></a>
-						</div>
-					</div>
-				</div>
-			</div>
+			<th:block th:each=" c : ${creatives}">
+				<th:block  th:replace="template :: creativePanel(${c})"></th:block>
+			</th:block>
 		</div>
 	</div>
 <div class="page-header">

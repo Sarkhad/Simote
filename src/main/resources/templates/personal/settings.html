@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title th:text="#{page.profile.settings.title}"></title>
 		<th:block th:include="template :: head"> </th:block>
@@ -52,6 +52,13 @@
 							<select th:field="*{theme}" class="form-control">
 								<option th:value="${currentTheme.code}" th:text="#{${currentTheme.name}}"></option>
                 				<option th:each="th : ${siteThemes}" th:value="${th.code}" th:text="#{${th.name}}"></option>
+                			</select>
+						</div>
+						<div class="form-group" th:classappend="${#fields.hasErrors('lang')}? has-error">
+  							<label th:text="#{page.profile.settings.language.label}" th:for="*{lang}"></label>
+							<select th:field="*{lang}" class="form-control">
+								<option th:value="${currentLang.code}" th:text="${currentLang.name}"></option>
+                				<option th:each="th : ${siteLanguages}" th:value="${th.code}" th:text="${th.name}"></option>
                 			</select>
 						</div>
 						<!-- 

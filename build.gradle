@@ -15,7 +15,7 @@ apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
 jar {
-	baseName = 'simote'
+	baseName = 'org.sinrel.simote'
 	version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
@@ -27,11 +27,13 @@ repositories {
 
 
 dependencies {
+	compile("org.springframework.social:spring-social-security")
+	compile("org.springframework.social:spring-social-config")
+	compile("org.springframework.social:spring-social-facebook")
+	compile("org.springframework.social:spring-social-twitter")
+
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.boot:spring-boot-starter-social-facebook')
-	compile('org.springframework.boot:spring-boot-starter-social-linkedin')
-	compile('org.springframework.boot:spring-boot-starter-social-twitter')
 	compile('org.springframework.boot:spring-boot-starter-validation')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -40,6 +42,7 @@ dependencies {
 	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
 	compile('commons-validator:commons-validator:1.4.0')
 	compile('org.pegdown:pegdown:1.6.0')
+	compile ('com.vk.api:sdk:0.3.5')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
